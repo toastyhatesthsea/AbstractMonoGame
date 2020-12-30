@@ -10,12 +10,15 @@ namespace AbstractGame
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private List<Sprite> spriteList;
-        private Texture2D skullbull1, skullbull2, skullbull3;
+        private Texture2D skullbull;
+        private AutomatedSprite skullAnim1, skullAnim2, skullAnim3;
+        private int skullCollisionOffset;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            Content.RootDirectory = @"Content";
+
             IsMouseVisible = true;
 
             spriteList = new List<Sprite>();
@@ -24,8 +27,15 @@ namespace AbstractGame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            skullCollisionOffset = 10;
+            skullbull = Content.Load<Texture2D>(@"../Content/Images/skullball");
 
-            spriteList.Add(new AutomatedSprite(skullbull, new Vector2(150, 50),))
+
+            skullAnim1 = new AutomatedSprite(skullbull, new Vector2(50, 150), new Point(skullbull.Width / 6, skullbull.Height / 8), skullCollisionOffset,
+            new Point(0, 0), new Point(6, 8), new Vector2(1, 0), 50);
+            skullAnim2 = new AutomatedSprite(skullbull, new Vector2(75, 75), new Point(skullbull.Width / 6, skullbull.Height / 8), skullCollisionOffset,
+            new Point(0, 0), new Point(6, 8), new Vector2(1, 1), 60);
+
 
             base.Initialize();
         }
@@ -34,9 +44,6 @@ namespace AbstractGame
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            skullbull1 = Content.Load<Texture2D>("@/Images/skullbull");
-            skullbull2 = Content.Load<Texture2D>("@/Images/skullbull");
-            skullbull3 = Content.Load<Texture2D>("@/Images/skullbull");
 
             // TODO: use this.Content to load your game content here
         }
@@ -47,6 +54,8 @@ namespace AbstractGame
                 Exit();
 
             // TODO: Add your update logic here
+            skullAnim1.Update(gameTime, Window.ClientBounds);
+            skullAnim2.Update(gameTime, Window.ClientBounds);
 
             base.Update(gameTime);
         }
@@ -54,8 +63,12 @@ namespace AbstractGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            _spriteBatch.Begin();
 
             // TODO: Add your drawing code here
+            skullAnim1.Draw(gameTime, _spriteBatch);
+            skullAnim2.Draw(gameTime, _spriteBatch);
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

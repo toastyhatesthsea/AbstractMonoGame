@@ -8,7 +8,7 @@ namespace AbstractGame
 {
     abstract class Sprite
     {
-        Texture2D textureImage;
+        protected Texture2D textureImage;
         protected Vector2 position, speed;
         protected Point frameSize, currentFrame, sheetSize;
         protected int collisionOffset, timeSinceLastFrame, millisecondsPerFrame;
@@ -48,7 +48,7 @@ namespace AbstractGame
 
         virtual public void Update(GameTime aGameTime, Rectangle aRect)
         {
-            timeSinceLastFrame = +aGameTime.ElapsedGameTime.Milliseconds;
+            timeSinceLastFrame += aGameTime.ElapsedGameTime.Milliseconds;
             if(timeSinceLastFrame > millisecondsPerFrame)
             {
                 timeSinceLastFrame = 0;

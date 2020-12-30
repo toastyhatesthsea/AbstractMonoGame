@@ -27,6 +27,23 @@ namespace AbstractGame
         {
             position += direction;
 
+            if (position.X > aRect.Width - frameSize.X / 2)
+            {
+                base.speed.X = direction.X * -1;
+            }
+            if (position.X < 0 - frameSize.X / 2)
+            {
+                speed.X = direction.X * -1;
+            }
+            if (position.Y > aRect.Height - frameSize.Y / 2)
+            {
+                speed.Y = direction.Y * -1;
+            }
+            if (position.Y < 0 - frameSize.Y / 2)
+            {
+                speed.Y = direction.Y * -1;
+            }
+
             base.Update(aGameTime, aRect);
         }
 
