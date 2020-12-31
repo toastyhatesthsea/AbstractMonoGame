@@ -11,8 +11,8 @@ namespace AbstractGame
     class AutomatedSprite : Sprite
     {
         public AutomatedSprite(Texture2D textureImage, Vector2 aPosition, Point frameSize, int collisionOffset,
-            Point currentFrame, Point sheetSize, Vector2 speed, int millisecondsPerFrame) :
-            base(textureImage, aPosition, frameSize, collisionOffset, currentFrame, sheetSize, speed, millisecondsPerFrame)
+            Point currentFrame, Point sheetSize, Vector2 speed, int millisecondsPerFrame, float scale) :
+            base(textureImage, aPosition, frameSize, collisionOffset, currentFrame, sheetSize, speed, millisecondsPerFrame, scale)
         {
 
         }

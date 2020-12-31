@@ -15,6 +15,7 @@ namespace AbstractGame
 
         private UserControlledSprite heroSprite;
         private int skullCollisionOffset;
+        private int heroCollisionOffset;
 
         public Game1()
         {
@@ -30,19 +31,24 @@ namespace AbstractGame
         {
             // TODO: Add your initialization logic here
             skullCollisionOffset = 10;
+            heroCollisionOffset = 50;
             skullbull = Content.Load<Texture2D>(@"../Content/Images/skullball");
             heroTexture = Content.Load<Texture2D>(@"../Content/Images/cuteIdleHorz");
 
 
             skullAnim1 = new AutomatedSprite(skullbull, new Vector2(50, 150), new Point(skullbull.Width / 6, skullbull.Height / 8), skullCollisionOffset,
-            new Point(0, 0), new Point(6, 8), new Vector2(1, 0), 50);
+            new Point(0, 0), new Point(6, 8), new Vector2(1, 0), 50, 0.8f);
             skullAnim2 = new AutomatedSprite(skullbull, new Vector2(75, 75), new Point(skullbull.Width / 6, skullbull.Height / 8), skullCollisionOffset,
-            new Point(0, 0), new Point(6, 8), new Vector2(1, 1), 60);
+            new Point(0, 0), new Point(6, 8), new Vector2(1, 1), 60, 1f);
             skullAnim3 = new AutomatedSprite(skullbull, new Vector2(0, 75), new Point(skullbull.Width / 6, skullbull.Height / 8), skullCollisionOffset,
-            new Point(0, 0), new Point(6, 8), new Vector2(1, 2), 30);
+            new Point(0, 0), new Point(6, 8), new Vector2(1, 2), 30, 1f);
 
-            heroSprite = new UserControlledSprite(heroTexture, new Vector2(0, 30), new Point(heroTexture.Width / 16, heroTexture.Height),
-            skullCollisionOffset, new Point(0, 0), new Point(16, 0), new Vector2(2, 2));
+            spriteList.Add(skullAnim1);
+            spriteList.Add(skullAnim2);
+            spriteList.Add(skullAnim3);
+
+            heroSprite = new UserControlledSprite(heroTexture, new Vector2(200, 30), new Point(heroTexture.Width / 16, heroTexture.Height),
+            heroCollisionOffset, new Point(0, 0), new Point(16, 0), new Vector2(2, 2), 60, 0.3f);
 
             base.Initialize();
         }
@@ -65,6 +71,17 @@ namespace AbstractGame
             skullAnim2.Update(gameTime, Window.ClientBounds);
             skullAnim3.Update(gameTime, Window.ClientBounds);
             heroSprite.Update(gameTime, Window.ClientBounds);
+
+            Rectangle heroCollisionRect =  heroSprite.rectCollision();
+
+            foreach(Sprite s in spriteList)
+            {
+                Rectangle autorect = s.rectCollision();
+                if(autorect.Intersects(heroCollisionRect))
+                {
+                    Exit();
+                }
+            }
 
             base.Update(gameTime);
         }

@@ -14,6 +14,8 @@ namespace AbstractGame
         protected int collisionOffset, timeSinceLastFrame, millisecondsPerFrame;
         const int defaultMillisecondsPerFrame = 16;
 
+        protected float scale;
+
         public Sprite(Texture2D aTextureImage, Vector2 aPos, Point aFrameSize,
             int aCollisionOffset, Point aCurrentFrame, Point aSheetSize,
             Vector2 aSpeed)
@@ -26,11 +28,12 @@ namespace AbstractGame
             sheetSize = aSheetSize;
             frameSize = aFrameSize;
             millisecondsPerFrame = defaultMillisecondsPerFrame;
+            scale = 1;
         }
 
         public Sprite(Texture2D textureImage, Vector2 position, 
             Point frameSize, int collisionOffset, Point currentFrame, 
-            Point sheetSize, Vector2 speed, int millisecondsPerFrame) 
+            Point sheetSize, Vector2 speed, int millisecondsPerFrame, float aScale) 
         { 
             this.textureImage = textureImage; 
             this.position = position; 
@@ -40,6 +43,7 @@ namespace AbstractGame
             this.sheetSize = sheetSize; 
             this.speed = speed; 
             this.millisecondsPerFrame = millisecondsPerFrame; 
+            this.scale = aScale;
         }
 
         protected Sprite()
@@ -69,7 +73,7 @@ namespace AbstractGame
         {
             aBatch.Draw(textureImage, position, new Rectangle(currentFrame.X * frameSize.X,
                 currentFrame.Y * frameSize.Y, frameSize.X, frameSize.Y), Color.White,
-                0, Vector2.Zero, 1f, SpriteEffects.None, 0);
+                0, Vector2.Zero, scale, SpriteEffects.None, 0);
         }
 
         public abstract Vector2 direction
